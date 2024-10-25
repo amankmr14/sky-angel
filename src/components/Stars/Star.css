@@ -1,0 +1,17 @@
+.star {
+    position: absolute;
+    top: -20%;
+    animation: falling 2s linear;
+    font-size: 60px;
+}
+
+
+@keyframes falling {
+    0% {
+      top: -10%;
+    }
+    100% {
+      top: 120%;
+    }
+  }
+  

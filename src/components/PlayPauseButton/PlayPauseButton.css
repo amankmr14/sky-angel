@@ -1,0 +1,19 @@
+.play-pause-button {
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  color: white;
+  user-select: none;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.play-pause-button:hover {
+  font-size: 30px;
+}

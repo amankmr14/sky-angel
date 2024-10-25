@@ -1,0 +1,19 @@
+.parachute {
+    position: absolute;
+    top: -20%;
+    font-size: 60px;
+    height: 100px;
+    width: 100px;
+    animation: falling 4s linear;
+}
+
+
+@keyframes falling {
+    0% {
+      top: -10%;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+  

@@ -1,0 +1,56 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.game__container {
+  position: relative;
+  width: 1024px;
+  height: 768px;
+  border: 1px solid black;
+  margin: auto;
+  background-color: skyblue;
+  overflow: hidden;
+}
+
+.plane {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.score__container {
+  padding: 5px;
+  text-align: left;
+  font-size: larger;
+  font-family: cursive;
+}
+
+.bird {
+  font-size: 60px;
+  position: absolute;
+  right: 0;
+  animation: moveBird linear infinite;
+}
+
+@keyframes moveBird {
+  0% {
+    right: -10%;
+  }
+  100% {
+    right: 110%;
+  }
+}
+
+.game__container.paused {
+  opacity: 0.6;
+}
+
+.game__container.paused .star,
+.game__container.paused .parachute,
+.game__container.paused .bird,
+.game__container.paused .cloud,
+.game__container.paused .plane {
+  animation-play-state: paused !important;
+}
