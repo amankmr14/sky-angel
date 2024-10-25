@@ -20,7 +20,7 @@ const Parachute = React.forwardRef(
       if (isPaused) return;
       const interval = setInterval(() => {
         deployParachute();
-      }, Math.random() * 7000 + 1000);
+      }, Math.random() * 3000 + 1000);
 
       return () => clearInterval(interval);
     }, [isPaused]);

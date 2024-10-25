@@ -28,7 +28,7 @@ const Bird = React.forwardRef(({ isVisible, setIsVisible, parentRef }, ref) => {
   useEffect(() => {
     const interval = setInterval(() => {
       spawnBird();
-    }, Math.random() * 5000 + 1000); // Random spawn interval
+    }, Math.random() * 3000 + 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -41,7 +41,8 @@ const Bird = React.forwardRef(({ isVisible, setIsVisible, parentRef }, ref) => {
         className="bird"
         src={bird}
         alt="bird"
-        height={100}
+        height={60}
+        width={60}
         style={{
           top: position.top,
           animationDuration: `${animationDuration}s`,

@@ -31,7 +31,7 @@
   font-size: 60px;
   position: absolute;
   right: 0;
-  animation: moveBird linear infinite;
+  animation: moveBird linear;
 }
 
 @keyframes moveBird {

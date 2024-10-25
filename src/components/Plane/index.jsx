@@ -42,7 +42,7 @@ const Plane = React.forwardRef((_, ref) => {
       className="plane"
       ref={ref}
       src={plane}
-      width={100}
+      width={90}
       style={{
         top: `${position.top}%`,
         left: `${position.left}%`,
