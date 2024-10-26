@@ -1,16 +1,17 @@
 .parachute {
     position: absolute;
-    top: 0;
+    top: -20%;
     font-size: 60px;
     height: 100px;
     width: 100px;
-    animation: falling 4s linear;
+    animation: falling 4s linear 2s;
+
 }
 
 
 @keyframes falling {
     0% {
-      top: 0;
+      top: -20%;
     }
     100% {
       top: 100%;

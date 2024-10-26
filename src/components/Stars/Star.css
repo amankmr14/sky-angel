@@ -1,7 +1,7 @@
 .star {
     position: absolute;
     top: -20%;
-    animation: falling 4s linear;
+    animation: falling 3s linear 3s;
     font-size: 60px;
 }
 

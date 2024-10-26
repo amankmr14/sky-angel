@@ -1,58 +1,76 @@
 import React, { useEffect, useState } from "react";
 
-import bird from "../../assets/bird.png"
+import bird from "../../assets/bird.png";
 
-const Bird = React.forwardRef(({ isVisible, setIsVisible, parentRef }, ref) => {
-  const [position, setPosition] = useState({ top: 0 });
-  const [uniqueKey, setUniqueKey] = useState(1);
-  const [animationDuration, setAnimationDuration] = useState(1);
-  const [animationCompleted, setAnimationCompleted] = useState(false);
-
-  const spawnBird = () => {
-    if (isVisible && !animationCompleted) return;
-    setIsVisible(true);
-    const randomTop = Math.random() * (parentRef.current.clientHeight - 100);
-    setPosition({ top: randomTop });
-
-    const randomDuration = Math.random() * 2 + 1;
-    setAnimationDuration(randomDuration);
-    setUniqueKey((prevKey) => prevKey + 1);
-    setAnimationCompleted(false);
-
-    setTimeout(() => {
-      setAnimationCompleted(true);
-      setIsVisible(false);
-    }, randomDuration * 1000);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      spawnBird();
-    }, Math.random() * 3000 + 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (isVisible)
+const Bird = React.forwardRef(
+  ({ top, duration, delay, onAnimationEnd }, ref) => {
     return (
       <img
-        key={`bird-${uniqueKey}`}
         ref={ref}
         className="bird"
         src={bird}
-        alt="bird"
         height={60}
         width={60}
+        alt="bird"
+        onAnimationEnd={onAnimationEnd}
         style={{
-          top: position.top,
-          animationDuration: `${animationDuration}s`,
+          top: `${top}px`,
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
         }}
       />
     );
-
-  return null;
-});
+  }
+);
 
 Bird.displayName = "Bird";
 
-export default Bird;
+const BirdGenerator = ({ parentRef, birdRefs }) => {
+  const [birds, setBirds] = useState([]);
+
+  const spawnBirds = () => {
+    if (parentRef.current) {
+      console.log("asdad");
+      const parentHeight = parentRef.current.clientHeight;
+      const birdHeight = 60;
+      const verticalSpacing = Math.floor(parentHeight / 3);
+
+      const generatedBirds = Array.from({ length: 3 }, (_, i) => ({
+        top:
+          i * verticalSpacing + Math.random() * (verticalSpacing - birdHeight),
+        duration: 2 + Math.random() * 2,
+        delay: Math.random() * 2,
+        id: Math.random()
+      }));
+
+      setBirds(generatedBirds);
+    }
+  };
+
+  const lastBird = birds.reduce((last, bird) => {
+    const lastTime = last ? last.duration + last.delay : 0;
+    const currentTime = bird.duration + bird.delay;
+    return currentTime > lastTime ? bird : last;
+  }, null);
+
+  useEffect(() => {
+    spawnBirds();
+  }, []);
+
+  return (
+    <>
+      {birds.map((bird, index) => (
+        <Bird
+          key={bird.id}
+          ref={birdRefs?.current[index]}
+          top={bird.top}
+          duration={bird.duration}
+          delay={bird.delay}
+          onAnimationEnd={bird.id === lastBird.id ? spawnBirds : null}
+        />
+      ))}
+    </>
+  );
+};
+
+export default BirdGenerator;

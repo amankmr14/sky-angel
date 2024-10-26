@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import Cloud from "../Cloud";
 import Plane from "../Plane";
@@ -16,13 +16,13 @@ function GameScreen({ setGameOver, setFinalScore }) {
   const planeRef = useRef(null);
   const chuteRef = useRef(null);
   const starRef = useRef(null);
-  const birdRef = useRef(null);
   const audioRef = useRef(null);
   const gameOverAudioRef = useRef(null);
+  const birdRefs = useRef(Array.from({ length: 3 }, () => React.createRef()));
+  
 
   const [isVisible, setIsVisible] = useState(false);
   const [isStarVisible, setIsStarVisible] = useState(false);
-  const [isBirdVisible, setIsBirdVisible] = useState(false);
   const [fuel, setFuel] = useState(10);
   const [starCount, setStarCount] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -64,26 +64,30 @@ function GameScreen({ setGameOver, setFinalScore }) {
         setStarCount((prev) => prev + 1);
       }
     }
-  }, []);
-
+  }, []);  
+  
   const checkCollisionBird = useCallback(() => {
-    if (planeRef.current && birdRef.current) {
+    if (planeRef.current) {
       const planeRect = planeRef.current.getBoundingClientRect();
-      const birdRect = birdRef.current.getBoundingClientRect();
 
-      const isColliding =
-        planeRect.x < birdRect.x + birdRect.width &&
-        planeRect.x + planeRect.width > birdRect.x &&
-        planeRect.y < birdRect.y + birdRect.height &&
-        planeRect.y + planeRect.height > birdRect.y;
+      birdRefs.current.forEach((birdRef) => {
+        if (birdRef.current) {
+          const birdRect = birdRef.current.getBoundingClientRect();
 
-      if (isColliding) {
-        setGameOver(true);
-        setFinalScore({ time: timer, stars: starCount });
-        setIsBirdVisible(false);
-      }
+          const isColliding =
+            planeRect.x < birdRect.x + birdRect.width &&
+            planeRect.x + planeRect.width > birdRect.x &&
+            planeRect.y < birdRect.y + birdRect.height &&
+            planeRect.y + planeRect.height > birdRect.y;
+
+          if (isColliding) {
+            setFinalScore({ time: timer, stars: starCount });
+            setGameOver(true);
+          }
+        }
+      });
     }
-  }, []);
+  }, [timer, starCount, setFinalScore, setGameOver, birdRefs]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -113,7 +117,7 @@ function GameScreen({ setGameOver, setFinalScore }) {
         clearInterval(fuelInterval);
         audioRef.current.pause();
         gameOverAudioRef.current.play();
-        setGameOver(true);
+        // setGameOver(true);
         setFinalScore({ time: timer, star: starCount });
         return 0;
       });
@@ -180,13 +184,7 @@ function GameScreen({ setGameOver, setFinalScore }) {
         parentRef={containerRef}
         setIsVisible={setIsStarVisible}
       />
-      <Bird
-        isPaused={isPaused}
-        ref={birdRef}
-        parentRef={containerRef}
-        isVisible={isBirdVisible}
-        setIsVisible={setIsBirdVisible}
-      />
+      <Bird birdRefs={birdRefs} parentRef={containerRef}/>
       <audio ref={audioRef} loop>
         <source src={audio} type="audio/mpeg" />
       </audio>
