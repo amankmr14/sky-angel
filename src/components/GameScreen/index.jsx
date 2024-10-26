@@ -9,7 +9,6 @@ import Bird from "../Bird";
 import PlayPauseButton from "../PlayPauseButton";
 
 import audio from "../../assets/bgm.mp3";
-import gameOverAudio from "../../assets/loos.wav";
 
 function GameScreen({ setGameOver, setFinalScore }) {
   const containerRef = useRef(null);
@@ -17,9 +16,7 @@ function GameScreen({ setGameOver, setFinalScore }) {
   const chuteRef = useRef(null);
   const starRef = useRef(null);
   const audioRef = useRef(null);
-  const gameOverAudioRef = useRef(null);
   const birdRefs = useRef(Array.from({ length: 3 }, () => React.createRef()));
-  
 
   const [isVisible, setIsVisible] = useState(false);
   const [isStarVisible, setIsStarVisible] = useState(false);
@@ -62,8 +59,8 @@ function GameScreen({ setGameOver, setFinalScore }) {
         setStarCount((prev) => prev + 1);
       }
     }
-  }, []);  
-  
+  }, []);
+
   const checkCollisionBird = useCallback(() => {
     if (planeRef.current) {
       const planeRect = planeRef.current.getBoundingClientRect();
@@ -114,7 +111,6 @@ function GameScreen({ setGameOver, setFinalScore }) {
         }
         clearInterval(fuelInterval);
         audioRef.current.pause();
-        gameOverAudioRef.current.play();
         setFinalScore({ time: timer, star: starCount });
         setGameOver(true);
         return 0;
@@ -182,12 +178,9 @@ function GameScreen({ setGameOver, setFinalScore }) {
         parentRef={containerRef}
         setIsVisible={setIsStarVisible}
       />
-      <Bird birdRefs={birdRefs} parentRef={containerRef}/>
+      <Bird birdRefs={birdRefs} parentRef={containerRef} />
       <audio ref={audioRef} loop>
         <source src={audio} type="audio/mpeg" />
-      </audio>
-      <audio ref={gameOverAudioRef}>
-        <source src={gameOverAudio} type="audio/mpeg" />
       </audio>
     </div>
   );

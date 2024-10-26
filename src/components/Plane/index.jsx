@@ -10,11 +10,11 @@ const Plane = React.forwardRef((_, ref) => {
       setPosition((prev) => {
         switch (e.key) {
           case "ArrowUp":
-            return { ...prev, top: Math.max(prev.top - 5, 0) };
+            return { ...prev, top: Math.max(prev.top - 5, 3) };
           case "ArrowDown":
             return {
               ...prev,
-              top: Math.min(prev.top + 5, 100),
+              top: Math.min(prev.top + 5, 97),
             };
           case "ArrowLeft":
             return {
