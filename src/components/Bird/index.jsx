@@ -30,7 +30,6 @@ const BirdGenerator = ({ parentRef, birdRefs }) => {
 
   const spawnBirds = () => {
     if (parentRef.current) {
-      console.log("asdad");
       const parentHeight = parentRef.current.clientHeight;
       const birdHeight = 60;
       const verticalSpacing = Math.floor(parentHeight / 3);

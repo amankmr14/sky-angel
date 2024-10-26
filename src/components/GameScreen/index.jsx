@@ -40,7 +40,6 @@ function GameScreen({ setGameOver, setFinalScore }) {
         planeRect.y + planeRect.height > chuteRect.y;
 
       if (isColliding) {
-        console.log("Collision detected!");
         setIsVisible(false);
         setFuel((prev) => prev + 10);
       }
@@ -59,7 +58,6 @@ function GameScreen({ setGameOver, setFinalScore }) {
         planeRect.y + planeRect.height > starRect.y;
 
       if (isColliding) {
-        console.log("Collision detected!");
         setIsStarVisible(false);
         setStarCount((prev) => prev + 1);
       }
@@ -117,8 +115,8 @@ function GameScreen({ setGameOver, setFinalScore }) {
         clearInterval(fuelInterval);
         audioRef.current.pause();
         gameOverAudioRef.current.play();
-        // setGameOver(true);
         setFinalScore({ time: timer, star: starCount });
+        setGameOver(true);
         return 0;
       });
     }, 1000);
