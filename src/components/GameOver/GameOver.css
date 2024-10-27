@@ -4,7 +4,7 @@
   height: 768px;
   border: 1px solid black;
   margin: auto;
-  background-color: rgba(135, 207, 235, 0.26);
+  background-color: rgba(135, 207, 235, 0.932);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@
   justify-content: left;
   text-align: left;
   align-items: center;
-  max-height: 300px;
+  max-height: 290px;
   overflow: scroll;
   width: 300px;
 }

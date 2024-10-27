@@ -6,12 +6,10 @@ import Parachute from "../Parachute";
 import GameCounter from "../GameScore";
 import Star from "../Stars";
 import Bird from "../Bird";
-import PlayPauseButton from "../PlayPauseButton";
 
 import audio from "../../assets/bgm.mp3";
 
-function GameScreen({ setGameOver, setFinalScore }) {
-  const containerRef = useRef(null);
+function GameScreen({ setGameOver, setFinalScore, isPaused, parentRef }) {
   const planeRef = useRef(null);
   const chuteRef = useRef(null);
   const starRef = useRef(null);
@@ -22,7 +20,6 @@ function GameScreen({ setGameOver, setFinalScore }) {
   const [isStarVisible, setIsStarVisible] = useState(false);
   const [fuel, setFuel] = useState(10);
   const [starCount, setStarCount] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [timer, setTimer] = useState(0);
 
   const checkCollisionChute = useCallback(() => {
@@ -121,16 +118,6 @@ function GameScreen({ setGameOver, setFinalScore }) {
   }, [isPaused]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.code === "Space") {
-        setIsPaused((prev) => !prev);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  useEffect(() => {
     let interval = null;
     if (!isPaused) {
       interval = setInterval(() => {
@@ -156,33 +143,29 @@ function GameScreen({ setGameOver, setFinalScore }) {
   }, [isPaused]);
 
   return (
-    <div
-      className={`game__container ${isPaused ? "paused" : ""}`}
-      ref={containerRef}
-    >
-      <PlayPauseButton isPaused={isPaused} setIsPaused={setIsPaused} />
+    <>
       <GameCounter fuel={fuel} star={starCount} time={timer} />
-      <Cloud parentRef={containerRef} timer={timer} />
+      <Cloud parentRef={parentRef} timer={timer} />
       <Plane ref={planeRef} />
       <Parachute
         isPaused={isPaused}
         ref={chuteRef}
         isVisible={isVisible}
-        parentRef={containerRef}
+        parentRef={parentRef}
         setIsVisible={setIsVisible}
       />
       <Star
         isPaused={isPaused}
         ref={starRef}
         isVisible={isStarVisible}
-        parentRef={containerRef}
+        parentRef={parentRef}
         setIsVisible={setIsStarVisible}
       />
-      <Bird birdRefs={birdRefs} parentRef={containerRef} />
+      <Bird birdRefs={birdRefs} parentRef={parentRef} />
       <audio ref={audioRef} loop>
         <source src={audio} type="audio/mpeg" />
       </audio>
-    </div>
+    </>
   );
 }
 

@@ -53,3 +53,11 @@
 .game__container.paused .plane {
   animation-play-state: paused !important;
 }
+
+.start_game__container {
+  margin: auto;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
